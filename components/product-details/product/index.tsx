@@ -3,34 +3,22 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ChevronRight, Minus, Plus, Star } from "lucide-react";
+import { ChevronRight, Heart, Minus, Plus, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ProductType } from "@/@types/types";
-
-interface ColorOption {
-  id: string;
-  name: string;
-  value: string;
-  selected: boolean;
-}
-
-interface SizeOption {
-  id: string;
-  name: string;
-  selected: boolean;
-}
+import { ColorOption, ProductType, SizeOption } from "@/@types/types";
+import { useCartStore } from "@/store/storage";
 
 export function ProductDetail({ studentId }: { studentId: string }) {
+  const [isLiked, setIsLiked] = useState(false);
+  const addToCart = useCartStore((state) => state.addToCart);
   /* ---------- HOOKS: avval hammasini shu yerda e'lon qilamiz ---------- */
   const [loading, setLoading] = useState(true);
   const [product, setProduct] = useState<ProductType | null>(null);
   const [mainImage, setMainImage] = useState<string>(
     "/placeholder.svg?height=600&width=600"
   );
-
   const [quantity, setQuantity] = useState(1);
-
   const [colorOptions, setColorOptions] = useState<ColorOption[]>([
     { id: "brown", name: "Brown", value: "#5B4D36", selected: true },
     { id: "green", name: "Green", value: "#1F4E4E", selected: false },
@@ -82,6 +70,53 @@ export function ProductDetail({ studentId }: { studentId: string }) {
   const decreaseQuantity = () => setQuantity((q) => Math.max(1, q - 1));
   const increaseQuantity = () => setQuantity((q) => q + 1);
 
+  // Get cart store functions
+
+  /* ----------------------Button Like --------------------------------- */
+  const toggleLike = () => {
+    if (!product) return;
+
+    const newLikedStatus = !isLiked;
+    setIsLiked(newLikedStatus);
+
+    const likedProducts = JSON.parse(
+      localStorage.getItem("likedProducts") || "[]"
+    );
+
+    if (newLikedStatus) {
+      localStorage.setItem(
+        "likedProducts",
+        JSON.stringify([...likedProducts, product])
+      );
+    } else {
+      localStorage.setItem(
+        "likedProducts",
+        JSON.stringify(
+          likedProducts.filter((p: ProductType) => p.id !== product.id)
+        )
+      );
+    }
+  };
+
+  const handleAddToCart = () => {
+    if (!product) return;
+
+    const selectedColor = colorOptions.find((c) => c.selected);
+    const selectedSize = sizeOptions.find((s) => s.selected);
+
+    if (!selectedColor || !selectedSize) return;
+
+    addToCart({
+      productId: product.id,
+      name: product.name,
+      image: product.img,
+      size: selectedSize.name,
+      color: selectedColor.name,
+      price: product.price!,
+      quantity: quantity,
+    });
+  };
+
   /* -------------------------------------------------------------------- */
   return (
     <section className="py-8 md:py-12">
@@ -122,7 +157,7 @@ export function ProductDetail({ studentId }: { studentId: string }) {
                 </div>
               </button>
               <button
-                className="bg-gray-100 rounded-lg overflow-hidden border border-gray-200 hover:border-gray-300"
+                className="bg-gray-100 hidden sm:block  rounded-lg overflow-hidden border border-gray-200 hover:border-gray-300"
                 onClick={() => setMainImage(product.img)}
               >
                 <div className="relative aspect-square w-24 sm:w-32">
@@ -148,7 +183,7 @@ export function ProductDetail({ studentId }: { studentId: string }) {
                 </div>
               </button>
               <button
-                className="bg-gray-100 rounded-lg overflow-hidden border border-gray-200 hover:border-gray-300"
+                className="bg-gray-100 hidden sm:block rounded-lg overflow-hidden border border-gray-200 hover:border-gray-300"
                 onClick={() => setMainImage(product.img)}
               >
                 <div className="relative aspect-square w-24 sm:w-32">
@@ -250,7 +285,7 @@ export function ProductDetail({ studentId }: { studentId: string }) {
 
             {/* Quantity & Add to Cart */}
             <div className="flex flex-col sm:flex-row gap-4">
-              <div className="flex items-center border border-gray-300 rounded-full">
+              <div className="flex items-center justify-between border border-gray-300 rounded-full">
                 <button
                   className="w-10 h-10 flex items-center justify-center text-gray-600 hover:text-black"
                   onClick={decreaseQuantity}
@@ -265,8 +300,19 @@ export function ProductDetail({ studentId }: { studentId: string }) {
                   <Plus className="h-4 w-4" />
                 </button>
               </div>
-
-              <Button className="flex-1 h-10 bg-black text-white hover:bg-gray-800 rounded-full">
+              <Button
+                variant="outline"
+                className={`border ${
+                  isLiked ? "text-red-500 fill-red-500" : ""
+                }`}
+                onClick={toggleLike}
+              >
+                <Heart />
+              </Button>
+              <Button
+                className="flex-1 h-10 bg-black text-white hover:bg-gray-800 rounded-full"
+                onClick={handleAddToCart}
+              >
                 Add to Cart
               </Button>
             </div>

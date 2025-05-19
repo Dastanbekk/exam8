@@ -12,7 +12,6 @@ export function Footer() {
     <footer className="bg-gray-100 pb-12 pt-30 mt-auto">
       <div className="containerr px-4">
         <div className="grid grid-cols-1 md:grid-cols-5 gap-8">
-          {/* Logo and Description */}
           <div className="md:col-span-1">
             <Link href="/" className="inline-block">
               <h2 className="text-xl font-bold">SHOP.CO</h2>
@@ -53,7 +52,6 @@ export function Footer() {
             </div>
           </div>
 
-          {/* Company */}
           <div className="md:col-span-1">
             <h3 className="font-medium text-sm uppercase tracking-wider mb-4">
               COMPANY
@@ -94,7 +92,6 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Help */}
           <div className="md:col-span-1">
             <h3 className="font-medium text-sm uppercase tracking-wider mb-4">
               HELP
@@ -135,7 +132,6 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* FAQ */}
           <div className="md:col-span-1">
             <h3 className="font-medium text-sm uppercase tracking-wider mb-4">
               FAQ
@@ -176,7 +172,6 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Resources */}
           <div className="md:col-span-1">
             <h3 className="font-medium text-sm uppercase tracking-wider mb-4">
               RESOURCES
@@ -218,12 +213,11 @@ export function Footer() {
           </div>
         </div>
 
-        {/* Bottom Section */}
         <div className="mt-12 pt-8 border-t border-gray-200 flex flex-col md:flex-row justify-between items-center">
           <p className="text-sm text-gray-600 mb-4 md:mb-0">
             Shopco © 2000-2023. All Rights Reserved.
           </p>
-          <div className="flex space-x-1">
+          <div className="grid grid-cols-3 sm:grid-cols-5 space-x-1">
             <Image
               src={paypal}
               alt="Visa"

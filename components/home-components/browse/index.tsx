@@ -19,7 +19,6 @@ export function BrowseStyles() {
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-6">
-            {/* Top row - Casual and Formal (equal width) */}
             <Link href="/categories/casual" className="no-underline md:col-span-4">
               <Card className="overflow-hidden border-none rounded-2xl h-[200px] bg-white md:h-[250px] hover:shadow-md transition-shadow">
                 <div className="relative h-full w-full">
@@ -42,7 +41,6 @@ export function BrowseStyles() {
               </Card>
             </Link>
 
-            {/* Bottom row - Party (wider) and Gym (narrower) */}
             <Link href="/categories/party" className="no-underline md:col-span-8">
               <Card className="overflow-hidden border-none rounded-2xl h-[200px] bg-white md:h-[250px] hover:shadow-md transition-shadow">
                 <div className="relative h-full w-full">

@@ -14,16 +14,12 @@ export function Newsletter() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!email) return
-
     setIsSubmitting(true)
-
-    // Simulate API call
     setTimeout(() => {
       setIsSubmitting(false)
       setIsSuccess(true)
       setEmail("")
 
-      // Reset success message after 3 seconds
       setTimeout(() => setIsSuccess(false), 3000)
     }, 1000)
   }

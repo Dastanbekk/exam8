@@ -7,21 +7,14 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { useEffect, useState } from "react";
+import { Skeleton } from "@/components/ui/skeleton";
+import { ProductType } from "@/@types/types";
 
-interface Product {
-  id: string;
-  name: string;
-  img: string;
-  image: string;
-  rate: number;
-  currentPrice: number;
-  price?: number;
-  discount?: number;
-}
+
 
 export function NewArrivals() {
   const [loading, setLoading] = useState(true);
-  const [arrivals, setArrivals] = useState<Product[]>([]);
+  const [arrivals, setArrivals] = useState<ProductType[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -44,9 +37,22 @@ export function NewArrivals() {
     fetchData();
   }, []);
   if (loading) {
-    <div>Loading...</div>;
-  }
+    return (
+      <section className="py-16">
+        <div className="containerr">
+          <h2 className="text-4xl md:text-5xl font-bold text-center mb-12">
+            NEW ARRIVALS
+          </h2>
 
+          <div className="flex space-x-4 overflow-x-auto justify-center">
+            {Array.from({ length: 4 }).map((_, i) => (
+              <Skeleton key={i} className="w-[250px] bg-gray-300 h-[350px] rounded-lg" />
+            ))}
+          </div>
+        </div>
+      </section>
+    );
+  }
   return (
     <section className="py-16 ">
       <div className="containerr">

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { Navbar } from "@/components/home-components/navbar";
+import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { Newsletter } from "@/components/home-components/news-latter";
 
@@ -33,7 +33,7 @@ export default function RootLayout({
         <Navbar />
         {children}
         <div className="relative mt-20">
-          <div className="absolute w-full top-[-120px]">
+          <div className="absolute w-full top-[-130px] sm:top-[-80px]">
             <Newsletter />
           </div>
           <Footer />
